@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\SignupRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
-    public function showSignupForm(){
+    public function showSignupForm()
+    {
         return view('signup');
     }
 
-    public function signup(Request $request){
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'picture' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'about' => 'nullable|string|max:500',
-        ]);
+    public function signup(SignupRequest $request)
+    {
+        $request->validated();
 
         $picturePath = null;
 
@@ -44,15 +40,14 @@ class AuthController extends Controller
         return redirect('/')->with('success', 'Signup successful!');
     }
 
-    public function showLoginForm(){
+    public function showLoginForm()
+    {
         return view('login');
     }
 
-    public function login(Request $request){
-        $request->validate([
-            'email' => 'required|email',
-            'password'=> 'required',
-        ]);
+    public function login(LoginRequest $request)
+    {
+        $request->validated();
 
         $credentials = $request->only('email', 'password');
 
@@ -63,10 +58,11 @@ class AuthController extends Controller
         return back()->withErrors(['email' => 'Your email or password is not correct'])->withInput();
     }
 
-
-    public function logout(){
+    public function logout()
+    {
         Auth::logout();
         Session::flush();
+
         return redirect('/')->with('success', 'You are now logged out');
     }
 }

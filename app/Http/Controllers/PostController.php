@@ -2,24 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    public function create(){
+    public function create()
+    {
         return view('posts.create');
     }
 
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'short_description' => 'required|string|max:255',
-            'description' => 'required|string',
-            'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        $request->validated();
 
         $picturePath = null;
         if ($request->hasFile('picture')) {

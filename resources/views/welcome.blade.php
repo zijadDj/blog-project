@@ -12,9 +12,9 @@
                     <img src="{{ asset('storage/' . $post->picture) }}" alt="{{ $post->title }}" class="w-full h-48 object-cover mb-4 rounded-lg">
                 @endif
 
-                <p class="text-gray-600 mb-4">{{ $post->short_description }}</p>
+                <p class="text-gray-600 mb-4 break-words">{{ $post->short_description }}</p>
 
-                <p class="text-gray-700 mb-4">{{ $post->description }}</p>
+                <p class="text-gray-700 mb-4 break-words">{{ $post->description }}</p>
             </div>
 
 
